@@ -3,3 +3,16 @@ body {
   background-color: rgb(38, 44, 49);
   color: whitesmoke;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form>* {
+  margin: .5rem 1rem .5rem 1rem;
+}
+
+form > button {
+  width: 100px;
+}

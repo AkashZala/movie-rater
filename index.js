@@ -53,7 +53,7 @@ app.post('/api/movies', async (req, res, next) => {
       RETURNING *;
     `;
     const response = await client.query(SQL, [req.body.title, req.body.stars]);
-    res.send(response.rows)
+    res.send(response.rows[0]);
   } catch (error) {
     next(error);
   }
