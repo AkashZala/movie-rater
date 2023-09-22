@@ -17,11 +17,19 @@ const AddMovieForm = ({ movies, setMovies }) => {
             <form onSubmit={submit}>
                 <label>
                     Title:
-                    <input type='text' maxLength={'255'} onChange={(event) => { setTitle(event.target.value) }} />
+                    <input
+                        type='text'
+                        maxLength={'255'}
+                        onChange={(event) => { setTitle(event.target.value) }}
+                    />
                 </label>
                 <label>
                     Stars:
-                    <input type='number' min={'0'} max={'5'} onChange={(event) => { setStars(event.target.value) }} />
+                    <input
+                        type='number'
+                        min={'0'} max={'5'}
+                        onChange={(event) => { setStars(event.target.value) }}
+                    />
                 </label>
                 <button type='submit'>Submit</button>
             </form>
