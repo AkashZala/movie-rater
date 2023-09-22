@@ -21,12 +21,13 @@ app.get('/api/movies', async (req, res, next) => {
   try {
     const SQL = `
       SELECT *
-      FROM movies;
+      FROM movies
+      ORDER by id
     `;
     const response = await client.query(SQL);
     res.send(response.rows);
   } catch(error) {
-    next(error)
+    next(error);
   }
 });
 
@@ -46,6 +47,9 @@ app.get('/api/movies/:id', async (req, res, next) => {
 
 app.put('/api/movies/:id', async (req, res, next) => {
   try {
+    if(req.body.stars < 1 || req.body.stars > 5) {
+      throw new Error;
+    }
     const SQL = `
       UPDATE movies
       SET title = $1, stars = $2
@@ -53,10 +57,28 @@ app.put('/api/movies/:id', async (req, res, next) => {
       RETURNING *;
     `
     const response = await client.query(SQL, [req.body.title, req.body.stars, req.params.id]);
-    res.send(response.rows);
+    res.send(response.rows[0]);
   } catch(error) {
     next(error);
   }
+});
+
+app.delete('/api/movies/:id', async (req, res, next) => {
+  try {
+    const SQL = `
+      DELETE
+      FROM movies 
+      WHERE id = $1;
+    `;
+    const response = await client.query(SQL, [req.params.id]);
+    res.send(response)
+  } catch(error) {
+    next(error)
+  }
+});
+
+app.use((err, req, res, next) => {
+  res.status(500).send(err.message)
 });
 
 const init = async ()=> {

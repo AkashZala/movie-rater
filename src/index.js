@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const App = () => {
   const [movies, setMovies] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -13,21 +14,52 @@ const App = () => {
     fetchMovies();
   }, [])
 
+  const increaseStars = async (movie) => {
+    try {
+      setError('');
+      const newRating = movie.stars + 1;
+      const { data } = await axios.put(`/api/movies/${movie.id}`, { title: movie.title, stars: newRating });
+      const updatedMovies = movies.map(_movie => {
+        return _movie.id === movie.id ? data : _movie
+      });
+      setMovies(updatedMovies);
+    } catch (error) {
+      setError(error.response.data);
+    }
+  }
+
+  const decreaseStars = async (movie) => {
+    try {
+      setError('');
+      const newRating = movie.stars - 1;
+      const { data } = await axios.put(`/api/movies/${movie.id}`, { title: movie.title, stars: newRating });
+      const updatedMovies = movies.map(_movie => {
+        return _movie.id === movie.id ? data : _movie
+      });
+      setMovies(updatedMovies);
+    } catch (error) {
+      setError(error.response.data);
+    }
+  }
+
   return (
     <div>
       <h1>My Movie Rater ({movies.length})</h1>
+      <p>{error}</p>
       <ul>
         {
           movies.map(movie => {
             return (
               <li key={movie.id}>
-                {`${movie.title} - ${movie.stars} stars `}
-                <button>
-                  +
-                </button>
-                <button>
-                  -
-                </button>
+                <p>{`${movie.title} - ${movie.stars} stars `}</p>
+                <p>
+                  <button onClick={() => { increaseStars(movie) }}>
+                    +
+                  </button>
+                  <button onClick={() => { decreaseStars(movie) }}>
+                    -
+                  </button>
+                </p>
               </li>
             );
           })
