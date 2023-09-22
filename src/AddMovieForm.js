@@ -19,6 +19,7 @@ const AddMovieForm = ({ movies, setMovies }) => {
                 <label>
                     Title:
                     <input
+                        name='Title'
                         type='text'
                         maxLength={'255'}
                         onChange={(event) => { setTitle(event.target.value) }}
@@ -27,6 +28,7 @@ const AddMovieForm = ({ movies, setMovies }) => {
                 <label>
                     Stars:
                     <input
+                        name='Stars'
                         type='number'
                         min={'0'} max={'5'}
                         onChange={(event) => { setStars(event.target.value) }}
