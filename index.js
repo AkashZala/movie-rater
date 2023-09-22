@@ -3,6 +3,7 @@ const client = new pg.Client('postgres://localhost/movies_db');
 const express = require('express');
 const app = express();
 const path = require('path');
+app.use(express.json());
 
 const homePage = path.join(__dirname, 'index.html');
 app.get('/', (req, res)=> res.sendFile(homePage));
@@ -29,6 +30,35 @@ app.get('/api/movies', async (req, res, next) => {
   }
 });
 
+app.get('/api/movies/:id', async (req, res, next) => {
+  try {
+    const SQL = `
+      SELECT *
+      FROM movies
+      WHERE id = $1;
+    `
+    const response = await client.query(SQL, [req.params.id]);
+    res.send(response.rows);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.put('/api/movies/:id', async (req, res, next) => {
+  try {
+    const SQL = `
+      UPDATE movies
+      SET title = $1, stars = $2
+      WHERE id = $3
+      RETURNING *;
+    `
+    const response = await client.query(SQL, [req.body.title, req.body.stars, req.params.id]);
+    res.send(response.rows);
+  } catch(error) {
+    next(error);
+  }
+});
+
 const init = async ()=> {
   await client.connect();
   console.log('connected to database');
@@ -36,15 +66,17 @@ const init = async ()=> {
     DROP TABLE IF EXISTS movies;
     CREATE TABLE movies(
       id SERIAL PRIMARY KEY,
-      name VARCHAR(255),
+      title VARCHAR(255),
       stars INTEGER
     );
-    INSERT INTO movies (name, stars) VALUES ('Fast and Furious', 5);
-    INSERT INTO movies (name, stars) VALUES ('Avengers', 5);
-    INSERT INTO movies (name, stars) VALUES ('Transformers', 0);
+    INSERT INTO movies (title, stars) VALUES ('Fast and Furious', 2);
+    INSERT INTO movies (title, stars) VALUES ('Avengers', 5);
+    INSERT INTO movies (title, stars) VALUES ('Star Wars', 3);
+    INSERT INTO movies (title, stars) VALUES ('The Lion King', 5);
+    INSERT INTO movies (title, stars) VALUES ('The Godfather', 4);
   `;
-  console.log('create your tables and seed data');
   await client.query(SQL);
+  console.log('created tables and seeded data');
 
   const port = process.env.PORT || 3000;
   app.listen(port, ()=> {

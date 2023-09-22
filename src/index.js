@@ -7,23 +7,27 @@ const App = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const response = await axios.get('/api/movies');
-      setMovies(response.data);
+      const { data } = await axios.get('/api/movies');
+      setMovies(data);
     }
     fetchMovies();
   }, [])
 
   return (
     <div>
-      <h1>Movies Rater ({movies.length})</h1>
+      <h1>My Movie Rater ({movies.length})</h1>
       <ul>
         {
           movies.map(movie => {
             return (
               <li key={movie.id}>
-                {`${movie.name} - ${movie.stars} stars `}
-                <button>+</button>
-                <button>-</button>
+                {`${movie.title} - ${movie.stars} stars `}
+                <button>
+                  +
+                </button>
+                <button>
+                  -
+                </button>
               </li>
             );
           })
