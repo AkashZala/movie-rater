@@ -42,6 +42,18 @@ const App = () => {
     }
   }
 
+  const deleteMovie = async (movie) => {
+    try {
+      const response = await axios.delete(`/api/movies/${movie.id}`);
+      const updatedList = movies.filter(_movie => {
+        return _movie.id !== movie.id;
+      });
+      setMovies(updatedList);
+    } catch(error) {
+      setError(error.response.data);
+    }
+  }
+
   return (
     <div>
       <h1>My Movie Rater ({movies.length})</h1>
@@ -51,8 +63,7 @@ const App = () => {
           movies.map(movie => {
             return (
               <li key={movie.id}>
-                <p>{`${movie.title} - ${movie.stars} stars `}</p>
-                <p>
+                <p>{`${movie.title} - ${movie.stars} stars `}
                   <button onClick={() => { increaseStars(movie) }}>
                     +
                   </button>
@@ -60,6 +71,11 @@ const App = () => {
                     -
                   </button>
                 </p>
+                <div>
+                  <button onClick={() => { deleteMovie(movie) }}>
+                    Delete
+                  </button>
+                </div>
               </li>
             );
           })
