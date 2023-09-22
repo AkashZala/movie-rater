@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const AddMovieForm = ({ movies, setMovies }) => {
     const [title, setTitle] = useState('');
-    const [stars, setStars] = useState(1);
+    const [stars, setStars] = useState(0);
 
     const submit = async (event) => {
         event.preventDefault();
@@ -21,7 +21,7 @@ const AddMovieForm = ({ movies, setMovies }) => {
                 </label>
                 <label>
                     Stars:
-                    <input type='number' min={'1'} max={'5'} onChange={(event) => { setStars(event.target.value) }} />
+                    <input type='number' min={'0'} max={'5'} onChange={(event) => { setStars(event.target.value) }} />
                 </label>
                 <button type='submit'>Submit</button>
             </form>

@@ -61,7 +61,7 @@ app.post('/api/movies', async (req, res, next) => {
 
 app.put('/api/movies/:id', async (req, res, next) => {
   try {
-    if (req.body.stars < 1 || req.body.stars > 5) {
+    if (req.body.stars < 0 || req.body.stars > 5) {
       throw new Error('Invalid Rating');
     }
     const SQL = `

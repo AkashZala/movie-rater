@@ -50,7 +50,7 @@ const App = () => {
         return _movie.id !== movie.id;
       });
       setMovies(updatedList);
-    } catch(error) {
+    } catch (error) {
       setError(error.response.data);
     }
   }
@@ -58,8 +58,8 @@ const App = () => {
   return (
     <div>
       <h1>My Movie Rater ({movies.length})</h1>
+      <AddMovieForm movies={movies} setMovies={setMovies} />
       <p>{error}</p>
-      <AddMovieForm movies={movies} setMovies={setMovies}/>
       <ul>
         {
           movies.map(movie => {
