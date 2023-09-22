@@ -58,8 +58,11 @@ const App = () => {
   return (
     <div>
       <h1>My Movie Rater ({movies.length})</h1>
+      <hr />
       <AddMovieForm movies={movies} setMovies={setMovies} />
-      <p>{error}</p>
+      <hr />
+      <h2>Movies</h2>
+      <p id='error'>{error}</p>
       <ul>
         {
           movies.map(movie => {

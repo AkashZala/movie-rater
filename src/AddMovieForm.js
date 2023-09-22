@@ -14,6 +14,7 @@ const AddMovieForm = ({ movies, setMovies }) => {
 
     return (
         <div>
+            <h2>Create New Movie Rating</h2>
             <form onSubmit={submit}>
                 <label>
                     Title:
