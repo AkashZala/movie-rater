@@ -17,7 +17,7 @@ const AddMovieForm = ({ movies, setMovies }) => {
             <h2>Create New Movie Rating</h2>
             <form onSubmit={submit}>
                 <label>
-                    Title:
+                    {`Title: `}
                     <input
                         name='Title'
                         type='text'
@@ -26,7 +26,7 @@ const AddMovieForm = ({ movies, setMovies }) => {
                     />
                 </label>
                 <label>
-                    Stars:
+                    {`Stars: `}
                     <input
                         name='Stars'
                         type='number'
